@@ -14,7 +14,7 @@ import (
 
 const (
 	defaultBaseURLScheme = "https"
-	defaultBaseURLHost   = "staging.openaq.org"
+	defaultBaseURLHost   = "api.openaq.org"
 	defaultBasePath      = "/v3/"
 	defaultUserAgent     = "openaq-go"
 )

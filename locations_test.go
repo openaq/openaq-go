@@ -1,9 +1,13 @@
 package openaq
 
 import (
+	"context"
 	"fmt"
+	"io"
+	"net/http"
 	"net/url"
 	"strconv"
+	"strings"
 	"testing"
 )
 
@@ -36,5 +40,25 @@ func TestGetLocations(t *testing.T) {
 }
 
 func TestGetLocation(t *testing.T) {
+	client := NewTestClient(func(req *http.Request) *http.Response {
+		// Test request parameters
+		equals(t, req.URL.String(), "https://api.openaq.org/v3/locations/11")
+		return &http.Response{
+			StatusCode: 200,
+			Body:       io.NopCloser(strings.NewReader(parameters)),
+			Header:     make(http.Header),
+		}
+	})
+	config := &Config{
+		Client: client,
+	}
+	openAQClient, err := NewClient(*config)
+	if err != nil {
+		fmt.Println("")
+	}
+	ctx := context.Background()
+	body, err := openAQClient.GetLocation(ctx, 11)
+	ok(t, err)
 
+	equals(t, body.Results[len(body.Results)-1].ID, int64(11))
 }

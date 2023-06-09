@@ -10,10 +10,45 @@ type Meta struct {
 	Found   int64  `json:"found"`
 }
 
+// a coordinate pair of latitude and longitude in WGS84
+type Coordinates struct {
+	Latitude  float64 `json:"latitude"`
+	Longitude float64 `json:"longitude"`
+}
+
+type Datetime struct {
+	UTC   string `json:"utc"`
+	Local string `json:"local"`
+}
+
+type ProviderBase struct {
+	ID          int64  `json:"id"`
+	Name        string `json:"name"`
+	Units       string `json:"units"`
+	DisplayName string `json:"displayName"`
+}
+
+type OwnerBase struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
+type InstrumentBase struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
+}
+
 type ParameterBase struct {
-	ID    int64  `json:"id"`
-	Name  string `json:"name"`
-	Units string `json:"units"`
+	ID          int64  `json:"id"`
+	Name        string `json:"name"`
+	Units       string `json:"units"`
+	DisplayName string `json:"displayName"`
+}
+
+type SensorBase struct {
+	ID        int           `json:"id"`
+	Name      string        `json:"name"`
+	Parameter ParameterBase `json:"parameter"`
 }
 
 type OwnerEntityBase struct {
@@ -37,24 +72,34 @@ type ParametersResponse struct {
 }
 
 type Location struct {
-	ID                int64  `json:"id"`
-	Name              string `json:"name"`
-	Units             string `json:"units"`
-	DisplayName       string `json:"displayName"`
-	Description       string `json:"description"`
-	LocationsCount    int64  `json:"locationsCount"`
-	MeasurementsCount int64  `json:"measurementsCount"`
+	ID       int64  `json:"id"`
+	Name     string `json:"name"`
+	Locality string `json:"locality"`
+	Timezone string `json:"timezone"`
+	Country  struct {
+		ID   int    `json:"id"`
+		Code string `json:"code"`
+		Name string `json:"name"`
+	} `json:"country"`
+	Owner struct {
+		ID   int    `json:"id"`
+		Name string `json:"name"`
+	} `json:"owner"`
+	Provider      ProviderBase     `json:"provider"`
+	IsMobile      bool             `json:"isMobile"`
+	IsMonitor     bool             `json:"isMonitor"`
+	Instruments   []InstrumentBase `json:"instruments"`
+	Sensors       []SensorBase     `json:"sensors"`
+	Coordinates   Coordinates      `json:"coordinates"`
+	Bounds        []float64        `json:"bounds"`
+	Distance      float64          `json:"distance"`
+	DatetimeFirst Datetime         `json:"datetimeFirst"`
+	DatetimeLast  Datetime         `json:"datetimeLast"`
 }
 
 type LocationsResponse struct {
 	Meta    Meta       `json:"meta"`
 	Results []Location `json:"results"`
-}
-
-// a coordinate pair of latitude and longitude in WGS84
-type Coordinates struct {
-	Lat float64
-	Lon float64
 }
 
 // bounding box to define the geographic bounds of the data
@@ -118,11 +163,6 @@ type summary struct {
 	Q95    int `json:"q95"`
 	Max    int `json:"max"`
 	StdDev int `json:"sd"`
-}
-
-type Datetime struct {
-	UTC   string `json:"utc"`
-	Local string `json:"local"`
 }
 
 type coverage struct {
