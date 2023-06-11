@@ -155,25 +155,31 @@ type period struct {
 	DatetimeTo   Datetime `json:"datetimeTo"`
 }
 
-// object for summary statistics
 type summary struct {
-	Min    int `json:"min"`
-	Q05    int `json:"q05"`
-	Median int `json:"median"`
-	Q95    int `json:"q95"`
-	Max    int `json:"max"`
-	StdDev int `json:"sd"`
+	Min    float64 `json:"min"`
+	Q02    float64 `json:"q02"`
+	Q25    float64 `json:"q25"`
+	Median float64 `json:"median"`
+	Q75    float64 `json:"q75"`
+	Q98    float64 `json:"q98"`
+	Max    float64 `json:"max"`
+	StdDev float64 `json:"sd"`
 }
 
 type coverage struct {
-	ObservedCount int      `json:"observedCount"`
-	DatetimeFirst Datetime `json:"datetimeFirst"`
-	DatetimeLast  Datetime `json:"datetimeLast"`
+	ExpectedCount    int      `json:"expectedCount"`
+	ExpectedInterval string   `json:"expectedInterval"`
+	ObservedCount    int      `json:"observedCount"`
+	ObservedInterval string   `json:"observedInterval"`
+	PercentComplete  float64  `json:"percentComplete"`
+	PercentCoverage  float64  `json:"percentCoverage"`
+	DatetimeFrom     Datetime `json:"datetimeFrom"`
+	DatetimeTo       Datetime `json:"datetimeTo"`
 }
 
 type Measurement struct {
 	Period      period        `json:"period"`
-	Value       int           `json:"value"`
+	Value       float64       `json:"value"`
 	Parameter   ParameterBase `json:"parameter"`
 	Coordinates Coordinates   `json:"coordinates"`
 	Summary     summary       `json:"summary"`
