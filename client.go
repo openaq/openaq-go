@@ -49,7 +49,7 @@ func NewClient(config Config) (*Client, error) {
 	}
 	config.userAgent = defaultUserAgent
 	var baseURLScheme string
-	if config.BaseURLHost == "" {
+	if config.BaseURLScheme == "" {
 		baseURLScheme = defaultBaseURLScheme
 	}
 	var baseURLHost string
