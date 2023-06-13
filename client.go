@@ -30,43 +30,43 @@ type Client struct {
 // Config contains client configuration.
 type Config struct {
 	// BaseURLScheme is the url scheme to use defaults to https
-	baseURLScheme string
+	BaseURLScheme string
 	// BaseURLHost is the base url to use defualts to api.openaq.org
-	baseURLHost string
+	BaseURLHost string
 	// APIKey is an optional API key.
-	apiKey string
+	APIKey string
 	// userAgent is an optional HTTP header.
-	userAgent string
+	UserAgent string
 	// HTTPHeaders are additional optional HTTP headers.
-	httpHeaders map[string]string
+	HttpHeaders map[string]string
 	// Client provides an optional HTTP client, otherwise a default will be used.
-	client *http.Client
+	Client *http.Client
 }
 
 // New creates a new OpenAQ client.
 func NewClient(config Config) (*Client, error) {
-	client := config.client
+	client := config.Client
 	if client == nil {
 		client = cleanhttp.DefaultClient()
 	}
 	var baseURLScheme string
-	if config.baseURLScheme == "" {
+	if config.BaseURLScheme == "" {
 		baseURLScheme = defaultBaseURLScheme
 	} else {
-		baseURLScheme = config.baseURLScheme
+		baseURLScheme = config.BaseURLScheme
 	}
 	var baseURLHost string
-	if config.baseURLHost == "" {
+	if config.BaseURLHost == "" {
 		baseURLHost = defaultBaseURLHost
 	} else {
-		baseURLHost = config.baseURLHost
+		baseURLHost = config.BaseURLHost
 
 	}
 	var userAgent string
-	if config.userAgent == "" {
+	if config.UserAgent == "" {
 		userAgent = defaultUserAgent
 	} else {
-		userAgent = config.userAgent
+		userAgent = config.UserAgent
 	}
 
 	return &Client{
@@ -75,9 +75,9 @@ func NewClient(config Config) (*Client, error) {
 			Host:   baseURLHost,
 			Path:   defaultBasePath,
 		},
-		apiKey:      config.apiKey,
+		apiKey:      config.APIKey,
 		userAgent:   userAgent,
-		httpHeaders: config.httpHeaders,
+		httpHeaders: config.HttpHeaders,
 		client:      client,
 	}, nil
 }

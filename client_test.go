@@ -58,10 +58,10 @@ func TestNewClient(t *testing.T) {
 	userAgent := "test"
 
 	config := &Config{
-		apiKey:        apiKey,
-		baseURLScheme: scheme,
-		baseURLHost:   host,
-		userAgent:     userAgent,
+		APIKey:        apiKey,
+		BaseURLScheme: scheme,
+		BaseURLHost:   host,
+		UserAgent:     userAgent,
 	}
 
 	c, err := NewClient(*config)
