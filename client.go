@@ -3,7 +3,6 @@ package openaq
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -84,10 +83,10 @@ func NewClient(config Config) (*Client, error) {
 
 func (c *Client) request(ctx context.Context, method, requestPath string, query url.Values, responseStruct interface{}) error {
 	var (
-		req          *http.Request
-		resp         *http.Response
-		err          error
-		bodyContents []byte
+		req  *http.Request
+		resp *http.Response
+		err  error
+		body []byte
 	)
 
 	req, err = c.newRequest(requestPath, query)
@@ -106,21 +105,25 @@ func (c *Client) request(ctx context.Context, method, requestPath string, query 
 
 	defer resp.Body.Close()
 
-	bodyContents, err = io.ReadAll(resp.Body)
+	body, err = io.ReadAll(resp.Body)
 
 	if err != nil {
 		return err
 	}
 
-	if resp.StatusCode >= 400 {
-		return fmt.Errorf("status: %d, body: %v", resp.StatusCode, string(bodyContents))
+	if resp.StatusCode < http.StatusOK || resp.StatusCode >= http.StatusMultipleChoices {
+		apiError := &APIError{Code: resp.StatusCode}
+		if err = json.Unmarshal(body, apiError); err != nil {
+			apiError.Message = string(body)
+		}
+		return apiError
 	}
 
 	if responseStruct == nil {
 		return nil
 	}
 
-	err = json.Unmarshal(bodyContents, responseStruct)
+	err = json.Unmarshal(body, responseStruct)
 
 	if err != nil {
 		return err

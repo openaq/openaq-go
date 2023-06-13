@@ -1,6 +1,9 @@
 package openaq
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 type ErrorType int
 
@@ -12,16 +15,50 @@ func (e ErrorType) String() string {
 	switch e {
 	case MissingParamError:
 		return "MissingParamError"
+
 	default:
 		return fmt.Sprintf("%d", int(e))
 	}
 }
 
 type ClientError struct {
-	errorType ErrorType
-	message   string
+	ErrorType ErrorType
+	Message   string
 }
 
-func (c *ClientError) Error() string {
-	return fmt.Sprintf("%s: %v", c.errorType, c.message)
+func (err ClientError) Error() string {
+	var sb strings.Builder
+	sb.Grow(128)
+
+	fmt.Fprint(&sb, "OpenAQ client error ", err.ErrorType, ": ")
+
+	fmt.Fprintf(&sb, "%q", err.Message)
+
+	return sb.String()
+}
+
+func (err ClientError) String() string {
+	return err.Error()
+}
+
+type APIError struct {
+	// Error message.
+	Message string `json:"message"`
+	// HTTP code.
+	Code int
+}
+
+func (err APIError) Error() string {
+	var sb strings.Builder
+	sb.Grow(128)
+
+	fmt.Fprint(&sb, "OpenAQ API error (status code ", err.Code, "): ")
+
+	fmt.Fprintf(&sb, "%q", err.Message)
+
+	return sb.String()
+}
+
+func (err APIError) String() string {
+	return err.Error()
 }

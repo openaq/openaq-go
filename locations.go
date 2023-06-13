@@ -37,7 +37,9 @@ type LocationBaseArgs struct {
 func (args *LocationBaseArgs) Values(q url.Values) (url.Values, error) {
 
 	if (args.Coordinates != nil || args.Radius != 0) && len(args.Bbox) > 0 {
-		return nil, &ClientError{}
+		return nil, &ClientError{
+			Message: "Cannot use coordinates/radius and bbox queries together",
+		}
 	}
 
 	if args.Coordinates != nil {
