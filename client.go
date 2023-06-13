@@ -67,7 +67,6 @@ func NewClient(config Config) (*Client, error) {
 		userAgent = defaultUserAgent
 	} else {
 		userAgent = config.userAgent
-
 	}
 
 	return &Client{

@@ -53,12 +53,15 @@ func NewTestClient(fn RoundTripFunc) *http.Client {
 
 func TestNewClient(t *testing.T) {
 	apiKey := "123456789abcdefghijklmno"
+	host := "staging.openaq.org"
+	scheme := "http"
+	userAgent := "test"
 
 	config := &Config{
 		apiKey:        apiKey,
-		baseURLScheme: "http",
-		baseURLHost:   "staging.openaq.org",
-		userAgent:     "test",
+		baseURLScheme: scheme,
+		baseURLHost:   host,
+		userAgent:     userAgent,
 	}
 
 	c, err := NewClient(*config)
@@ -70,12 +73,15 @@ func TestNewClient(t *testing.T) {
 		t.Fatalf("c.apiKey = %q, want %q", got, want)
 	}
 
-	if got, want := c.baseURL.Scheme, "http"; got != want {
+	if got, want := c.baseURL.Host, host; got != want {
+		t.Fatalf("c.baseURL.Host = %q, want %q", got, want)
+	}
+
+	if got, want := c.baseURL.Scheme, scheme; got != want {
 		t.Fatalf("c.baseURL.Scheme = %q, want %q", got, want)
 	}
 
-	if got, want := c.userAgent, "test"; got != want {
+	if got, want := c.userAgent, userAgent; got != want {
 		t.Fatalf("c.userAgent = %q, want %q", got, want)
 	}
-
 }
