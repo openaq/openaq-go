@@ -55,7 +55,10 @@ func TestNewClient(t *testing.T) {
 	apiKey := "123456789abcdefghijklmno"
 
 	config := &Config{
-		APIKey: apiKey,
+		apiKey:        apiKey,
+		baseURLScheme: "http",
+		baseURLHost:   "staging.openaq.org",
+		userAgent:     "test",
 	}
 
 	c, err := NewClient(*config)
@@ -63,7 +66,16 @@ func TestNewClient(t *testing.T) {
 		fmt.Println("uh oh")
 	}
 
-	if got, want := c.config.APIKey, apiKey; got != want {
+	if got, want := c.apiKey, apiKey; got != want {
 		t.Fatalf("c.apiKey = %q, want %q", got, want)
 	}
+
+	if got, want := c.baseURL.Scheme, "http"; got != want {
+		t.Fatalf("c.baseURL.Scheme = %q, want %q", got, want)
+	}
+
+	if got, want := c.userAgent, "test"; got != want {
+		t.Fatalf("c.userAgent = %q, want %q", got, want)
+	}
+
 }

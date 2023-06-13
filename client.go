@@ -20,51 +20,66 @@ const (
 )
 
 type Client struct {
-	config  Config
-	baseURL *url.URL
-	client  *http.Client
+	baseURL     *url.URL
+	apiKey      string
+	userAgent   string
+	httpHeaders map[string]string
+	client      *http.Client
 }
 
 // Config contains client configuration.
 type Config struct {
 	// BaseURLScheme is the url scheme to use defaults to https
-	BaseURLScheme string
+	baseURLScheme string
 	// BaseURLHost is the base url to use defualts to api.openaq.org
-	BaseURLHost string
+	baseURLHost string
 	// APIKey is an optional API key.
-	APIKey string
+	apiKey string
 	// userAgent is an optional HTTP header.
 	userAgent string
 	// HTTPHeaders are additional optional HTTP headers.
-	HTTPHeaders map[string]string
+	httpHeaders map[string]string
 	// Client provides an optional HTTP client, otherwise a default will be used.
-	Client *http.Client
+	client *http.Client
 }
 
 // New creates a new OpenAQ client.
 func NewClient(config Config) (*Client, error) {
-	client := config.Client
+	client := config.client
 	if client == nil {
 		client = cleanhttp.DefaultClient()
 	}
-	config.userAgent = defaultUserAgent
 	var baseURLScheme string
-	if config.BaseURLScheme == "" {
+	if config.baseURLScheme == "" {
 		baseURLScheme = defaultBaseURLScheme
+	} else {
+		baseURLScheme = config.baseURLScheme
 	}
 	var baseURLHost string
-	if config.BaseURLHost == "" {
+	if config.baseURLHost == "" {
 		baseURLHost = defaultBaseURLHost
+	} else {
+		baseURLHost = config.baseURLHost
+
+	}
+	var userAgent string
+	if config.userAgent == "" {
+		userAgent = defaultUserAgent
+	} else {
+		userAgent = config.userAgent
+
 	}
 
 	return &Client{
-		config: config,
 		baseURL: &url.URL{
 			Scheme: baseURLScheme,
 			Host:   baseURLHost,
 			Path:   defaultBasePath,
 		},
-		client: client,
+		apiKey:      config.apiKey,
+		userAgent:   userAgent,
+		httpHeaders: config.httpHeaders,
+		client:      client,
 	}, nil
 }
 
@@ -125,11 +140,11 @@ func (c *Client) newRequest(requestPath string, query url.Values) (*http.Request
 		return req, err
 	}
 
-	if c.config.APIKey != "" {
-		req.Header.Add("X-API-key", c.config.APIKey)
+	if c.apiKey != "" {
+		req.Header.Add("X-API-key", c.apiKey)
 	}
-	if c.config.HTTPHeaders != nil {
-		for k, v := range c.config.HTTPHeaders {
+	if c.httpHeaders != nil {
+		for k, v := range c.httpHeaders {
 			req.Header.Add(k, v)
 		}
 	}

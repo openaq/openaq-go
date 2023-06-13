@@ -50,7 +50,7 @@ func TestGetLocation(t *testing.T) {
 		}
 	})
 	config := &Config{
-		Client: client,
+		client: client,
 	}
 	openAQClient, err := NewClient(*config)
 	if err != nil {
