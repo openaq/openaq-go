@@ -14,8 +14,8 @@ A low-level golang wrapper around the OpenAQ v3 REST API.
 A client is initialized with a configuration struct which holds some global configuration for interacting with the API. 
 
 ```
-client := NewClient({
-    
+client := NewClient(Config{
+    APIKey: "my-openaq-api-key-123456-7890"
 })
 ```
 
