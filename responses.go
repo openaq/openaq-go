@@ -7,7 +7,7 @@ type Meta struct {
 	Website string `json:"website"`
 	Page    int64  `json:"page"`
 	Limit   int64  `json:"limit"`
-	Found   int64  `json:"found"`
+	Found   string `json:"found"`
 }
 
 // a coordinate pair of latitude and longitude in WGS84
