@@ -18,7 +18,7 @@ func (b *BaseArgs) Values(q url.Values) (url.Values, error) {
 	} else {
 		q.Add("limit", "100")
 	}
-	if b.Limit != 0 {
+	if b.Page != 0 {
 		q.Add("page", strconv.Itoa(int(b.Page)))
 	} else {
 		q.Add("page", "1")

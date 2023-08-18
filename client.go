@@ -3,7 +3,6 @@ package openaq
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -136,8 +135,6 @@ func (c *Client) newRequest(requestPath string, query url.Values) (*http.Request
 	url := c.baseURL
 	url.Path = path.Join(url.Path, requestPath)
 	url.RawQuery = query.Encode()
-
-	fmt.Printf("URL: %s \n", url.String())
 	req, err := http.NewRequest("GET", url.String(), nil)
 	if err != nil {
 		return req, err
