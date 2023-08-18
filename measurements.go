@@ -4,17 +4,41 @@ import (
 	"context"
 	"fmt"
 	"net/url"
+	"time"
 )
 
 type MeasurementsArgs struct {
-	BaseArgs BaseArgs
+	BaseArgs     BaseArgs
+	DatetimeFrom time.Time
+	DatetimeTo   time.Time
+	Parameters   []int64
+	PeriodName   string
+}
 
-	Coordinates *Coordinates
+func (m *MeasurementsArgs) Values(q url.Values) (url.Values, error) {
+	if !m.DatetimeFrom.IsZero() {
+		q.Add("date_from", m.DatetimeFrom.UTC().Format("2006-01-02T15:04:05Z07:00"))
+	}
+	if !m.DatetimeTo.IsZero() {
+		q.Add("date_to", m.DatetimeFrom.UTC().Format("2006-01-02T15:04:05Z07:00"))
+	}
+	if m.PeriodName != "" {
+		q.Add("period_name", m.PeriodName)
+	}
+	return q, nil
 }
 
 // QueryParams translates MeasurementsArgs struct into url.Values
 func (args MeasurementsArgs) QueryParams() (url.Values, error) {
 	q := make(url.Values)
+	q, err := args.BaseArgs.Values(q)
+	if err != nil {
+		return nil, err
+	}
+	q, err = args.Values(q)
+	if err != nil {
+		return nil, err
+	}
 	return q, nil
 }
 

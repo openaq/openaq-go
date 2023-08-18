@@ -90,8 +90,12 @@ func (args *LocationArgs) QueryParams() (url.Values, error) {
 	if err != nil {
 		return nil, err
 	}
-	q = args.Countries.Values(q)
-	q = args.Providers.Values(q)
+	if args.Countries != nil {
+		q = args.Countries.Values(q)
+	}
+	if args.Providers != nil {
+		q = args.Providers.Values(q)
+	}
 	return q, nil
 }
 
