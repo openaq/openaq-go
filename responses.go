@@ -3,11 +3,11 @@ package openaq
 import "time"
 
 type Meta struct {
-	Name    string `json:"name"`
-	Website string `json:"website"`
-	Page    int64  `json:"page"`
-	Limit   int64  `json:"limit"`
-	Found   string `json:"found"`
+	Name    string      `json:"name"`
+	Website string      `json:"website"`
+	Page    int64       `json:"page"`
+	Limit   int64       `json:"limit"`
+	Found   interface{} `json:"found"`
 }
 
 // a coordinate pair of latitude and longitude in WGS84
