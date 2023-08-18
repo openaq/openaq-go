@@ -17,8 +17,8 @@ type Coordinates struct {
 }
 
 type Datetime struct {
-	UTC   string `json:"utc"`
-	Local string `json:"local"`
+	UTC   time.Time `json:"utc"`
+	Local time.Time `json:"local"`
 }
 
 type ProviderBase struct {
