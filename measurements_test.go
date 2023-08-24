@@ -2,7 +2,6 @@ package openaq
 
 import (
 	"context"
-	"fmt"
 	"io"
 	"net/http"
 	"net/url"
@@ -17,14 +16,12 @@ func TestMeasurementsArgQueryParams(t *testing.T) {
 		BaseArgs:     baseArgs,
 		DatetimeFrom: time.Date(2021, 8, 15, 14, 30, 45, 100, time.UTC),
 		DatetimeTo:   time.Date(2021, 8, 15, 14, 30, 45, 100, time.UTC),
-		Parameters:   []int64{1, 2, 3},
+		Parameters:   &Parameters{IDs: []int64{1, 2, 3}},
 		PeriodName:   "hour",
 	}
 	queryString, err := measurementArgs.QueryParams()
-	if err != nil {
-		fmt.Println(err)
-	}
-	equals(t, url.Values{"date_from": []string{"2021-08-15T14:30:45Z"}, "date_to": []string{"2021-08-15T14:30:45Z"}, "limit": []string{"100"}, "page": []string{"1"}, "period_name": []string{"hour"}}, queryString)
+	ok(t, err)
+	equals(t, url.Values{"date_from": []string{"2021-08-15T14:30:45Z"}, "date_to": []string{"2021-08-15T14:30:45Z"}, "limit": []string{"100"}, "page": []string{"1"}, "parameters_id": []string{"1,2,3"}, "period_name": []string{"hour"}}, queryString)
 }
 
 func TestGetLocationMeasurments(t *testing.T) {
@@ -42,9 +39,8 @@ func TestGetLocationMeasurments(t *testing.T) {
 		Client: client,
 	}
 	openAQClient, err := NewClient(*config)
-	if err != nil {
-		fmt.Println(err)
-	}
+	ok(t, err)
+
 	ctx := context.Background()
 	openAQClient.GetLocationMeasurements(ctx, 2178, MeasurementsArgs{BaseArgs: BaseArgs{Limit: 1, Page: 1}})
 	ok(t, err)

@@ -11,7 +11,7 @@ type MeasurementsArgs struct {
 	BaseArgs     BaseArgs
 	DatetimeFrom time.Time
 	DatetimeTo   time.Time
-	Parameters   []int64
+	Parameters   *Parameters
 	PeriodName   string
 }
 
@@ -20,10 +20,13 @@ func (m *MeasurementsArgs) Values(q url.Values) (url.Values, error) {
 		q.Add("date_from", m.DatetimeFrom.UTC().Format("2006-01-02T15:04:05Z07:00"))
 	}
 	if !m.DatetimeTo.IsZero() {
-		q.Add("date_to", m.DatetimeFrom.UTC().Format("2006-01-02T15:04:05Z07:00"))
+		q.Add("date_to", m.DatetimeTo.UTC().Format("2006-01-02T15:04:05Z07:00"))
 	}
 	if m.PeriodName != "" {
 		q.Add("period_name", m.PeriodName)
+	}
+	if m.Parameters != nil {
+		q = m.Parameters.Values(q)
 	}
 	return q, nil
 }

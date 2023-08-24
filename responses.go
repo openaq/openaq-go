@@ -3,11 +3,11 @@ package openaq
 import "time"
 
 type Meta struct {
-	Name    string      `json:"name"`
-	Website string      `json:"website"`
-	Page    int64       `json:"page"`
-	Limit   int64       `json:"limit"`
-	Found   interface{} `json:"found"`
+	Name    string `json:"name"`
+	Website string `json:"website"`
+	Page    int64  `json:"page"`
+	Limit   int64  `json:"limit"`
+	Found   int64  `json:"found"`
 }
 
 // a coordinate pair of latitude and longitude in WGS84
@@ -29,12 +29,12 @@ type ProviderBase struct {
 }
 
 type OwnerBase struct {
-	ID   int    `json:"id"`
+	ID   int64  `json:"id"`
 	Name string `json:"name"`
 }
 
 type InstrumentBase struct {
-	ID   int    `json:"id"`
+	ID   int64  `json:"id"`
 	Name string `json:"name"`
 }
 
@@ -46,7 +46,7 @@ type ParameterBase struct {
 }
 
 type SensorBase struct {
-	ID        int           `json:"id"`
+	ID        int64         `json:"id"`
 	Name      string        `json:"name"`
 	Parameter ParameterBase `json:"parameter"`
 }
@@ -77,12 +77,12 @@ type Location struct {
 	Locality string `json:"locality"`
 	Timezone string `json:"timezone"`
 	Country  struct {
-		ID   int    `json:"id"`
+		ID   int64  `json:"id"`
 		Code string `json:"code"`
 		Name string `json:"name"`
 	} `json:"country"`
 	Owner struct {
-		ID   int    `json:"id"`
+		ID   int64  `json:"id"`
 		Name string `json:"name"`
 	} `json:"owner"`
 	Provider      ProviderBase     `json:"provider"`
@@ -167,9 +167,9 @@ type summary struct {
 }
 
 type coverage struct {
-	ExpectedCount    int      `json:"expectedCount"`
+	ExpectedCount    int64    `json:"expectedCount"`
 	ExpectedInterval string   `json:"expectedInterval"`
-	ObservedCount    int      `json:"observedCount"`
+	ObservedCount    int64    `json:"observedCount"`
 	ObservedInterval string   `json:"observedInterval"`
 	PercentComplete  float64  `json:"percentComplete"`
 	PercentCoverage  float64  `json:"percentCoverage"`
@@ -190,3 +190,11 @@ type MeasurementsResponse struct {
 	Meta    Meta          `json:"meta"`
 	Results []Measurement `json:"results"`
 }
+
+type ManufacturersResponse struct{}
+
+type OwnersResponse struct{}
+
+type SensorsResponse struct{}
+
+type TrendsResponse struct{}

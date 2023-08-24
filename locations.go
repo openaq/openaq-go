@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/url"
 	"strconv"
-	"strings"
 )
 
 type LocationBaseArgs struct {
@@ -27,7 +26,7 @@ type LocationBaseArgs struct {
 	Monitor bool
 	// Mobile allowing filtering for mobile locations vs stationary locations
 	Mobile bool
-	//
+	// A slice of owners IDs
 	OwnersIDs []int64
 }
 
@@ -51,30 +50,6 @@ func (args *LocationBaseArgs) Values(q url.Values) (url.Values, error) {
 	return q, nil
 }
 
-type Countries struct {
-	//
-	IDs []int64
-}
-
-func (args *Countries) Values(q url.Values) url.Values {
-	if args != nil {
-		q.Add("countries_id", strings.Trim(strings.Join(strings.Fields(fmt.Sprint(args.IDs)), ","), "[]"))
-	}
-	return q
-}
-
-type Providers struct {
-	//
-	IDs []int64
-}
-
-func (args *Providers) Values(q url.Values) url.Values {
-	if args != nil {
-		q.Add("providers_id", strings.Trim(strings.Join(strings.Fields(fmt.Sprint(args.IDs)), ","), "[]"))
-	}
-	return q
-}
-
 type LocationArgs struct {
 	//
 	LocationBaseArgs
@@ -84,17 +59,17 @@ type LocationArgs struct {
 	Providers *Providers
 }
 
-func (args *LocationArgs) QueryParams() (url.Values, error) {
+func (locationArgs *LocationArgs) QueryParams() (url.Values, error) {
 	q := make(url.Values)
-	q, err := args.LocationBaseArgs.Values(q)
+	q, err := locationArgs.LocationBaseArgs.Values(q)
 	if err != nil {
 		return nil, err
 	}
-	if args.Countries != nil {
-		q = args.Countries.Values(q)
+	if locationArgs.Countries != nil {
+		q = locationArgs.Countries.Values(q)
 	}
-	if args.Providers != nil {
-		q = args.Providers.Values(q)
+	if locationArgs.Providers != nil {
+		q = locationArgs.Providers.Values(q)
 	}
 	return q, nil
 }

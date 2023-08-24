@@ -9,19 +9,21 @@ import (
 type CountryArgs struct {
 	//
 	BaseArgs BaseArgs
-	//
-	Coordinates *Coordinates
 }
 
-func (args CountryArgs) QueryParams() (url.Values, error) {
+func (countryArgs CountryArgs) QueryParams() (url.Values, error) {
 	q := make(url.Values)
+	q, err := countryArgs.BaseArgs.Values(q)
+	if err != nil {
+		return nil, err
+	}
 	return q, nil
 }
 
 // GetCountries fetches all countries filtered by any params passed.
-func (c *Client) GetCountries(ctx context.Context, args CountryArgs) (*CountriesResponse, error) {
+func (c *Client) GetCountries(ctx context.Context, countryArgs CountryArgs) (*CountriesResponse, error) {
 	resp := &CountriesResponse{}
-	queryParams, err := args.QueryParams()
+	queryParams, err := countryArgs.QueryParams()
 	if err != nil {
 		return nil, err
 	}

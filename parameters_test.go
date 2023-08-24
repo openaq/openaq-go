@@ -14,14 +14,11 @@ const parameters = `{"meta":{"name":"openaq-api","website":"/","page":1,"limit":
 func TestGetParameters(t *testing.T) {
 
 	client := NewTestClient(func(req *http.Request) *http.Response {
-		// Test request parameters
 		equals(t, req.URL.String(), "https://api.openaq.org/v3/parameters")
 		return &http.Response{
 			StatusCode: 200,
-			// Send response to be tested
-			Body: io.NopCloser(strings.NewReader(parameters)),
-			// Must be set to non-nil value or it panics
-			Header: make(http.Header),
+			Body:       io.NopCloser(strings.NewReader(parameters)),
+			Header:     make(http.Header),
 		}
 	})
 	config := &Config{
