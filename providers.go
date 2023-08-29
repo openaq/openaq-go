@@ -8,8 +8,6 @@ import (
 
 type ProvidersArgs struct {
 	BaseArgs BaseArgs
-
-	Coordinates *Coordinates
 }
 
 // QueryParams translates ProvidersArgs struct into url.Values

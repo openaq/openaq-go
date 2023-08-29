@@ -7,7 +7,7 @@ import (
 	"strconv"
 )
 
-type LocationBaseArgs struct {
+type LocationArgs struct {
 	//
 	BaseArgs *BaseArgs
 	// Coordinates represents latitude,longitude (y,x) values to center the search
@@ -28,48 +28,48 @@ type LocationBaseArgs struct {
 	Mobile bool
 	// A slice of owners IDs
 	OwnersIDs []int64
-}
-
-func (args *LocationBaseArgs) Values(q url.Values) (url.Values, error) {
-
-	if args.Coordinates != nil {
-		lat := strconv.FormatFloat(args.Coordinates.Lat, 'f', -1, 64)
-		lon := strconv.FormatFloat(args.Coordinates.Lon, 'f', -1, 64)
-		coords := fmt.Sprintf("%s,%s", lat, lon)
-		q.Add("coordinates", coords)
-	}
-
-	if args.Radius != 0 {
-		q.Add("radius", strconv.Itoa(int(args.Radius)))
-	}
-
-	if len(args.IsoCode) > 0 {
-		q.Add("iso", args.IsoCode)
-	}
-
-	return q, nil
-}
-
-type LocationArgs struct {
-	//
-	LocationBaseArgs
 	//
 	Countries *Countries
 	//
 	Providers *Providers
 }
 
-func (locationArgs *LocationArgs) QueryParams() (url.Values, error) {
-	q := make(url.Values)
-	q, err := locationArgs.LocationBaseArgs.Values(q)
-	if err != nil {
-		return nil, err
+func (locationArgs *LocationArgs) Values(q url.Values) (url.Values, error) {
+	if locationArgs.Coordinates != nil {
+		lat := strconv.FormatFloat(locationArgs.Coordinates.Lat, 'f', -1, 64)
+		lon := strconv.FormatFloat(locationArgs.Coordinates.Lon, 'f', -1, 64)
+		coords := fmt.Sprintf("%s,%s", lat, lon)
+		q.Add("coordinates", coords)
 	}
+
 	if locationArgs.Countries != nil {
 		q = locationArgs.Countries.Values(q)
 	}
+
 	if locationArgs.Providers != nil {
 		q = locationArgs.Providers.Values(q)
+	}
+	if locationArgs.Radius != 0 {
+		q.Add("radius", strconv.Itoa(int(locationArgs.Radius)))
+	}
+
+	if len(locationArgs.IsoCode) > 0 {
+		q.Add("iso", locationArgs.IsoCode)
+	}
+
+	return q, nil
+}
+
+// QueryParams translates LocationArgs struct into url.Values
+func (locationArgs LocationArgs) QueryParams() (url.Values, error) {
+	q := make(url.Values)
+	q, err := locationArgs.BaseArgs.Values(q)
+	if err != nil {
+		return nil, err
+	}
+	q, err = locationArgs.Values(q)
+	if err != nil {
+		return nil, err
 	}
 	return q, nil
 }

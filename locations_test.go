@@ -12,21 +12,17 @@ func TestLocationArgsQueryParams(t *testing.T) {
 		Limit: 1000,
 		Page:  1,
 	}
-	locationBaseArgs := LocationBaseArgs{
+	locationArgs := LocationArgs{
 		BaseArgs: &baseArgs,
 		Monitor:  true,
 		Mobile:   false,
 	}
 	providers := Providers{IDs: []int64{1, 2}}
 	countries := Countries{IDs: []int64{6, 7}}
-
-	args := LocationArgs{
-		LocationBaseArgs: locationBaseArgs,
-		Providers:        &providers,
-		Countries:        &countries,
-	}
-	queryParams, _ := args.QueryParams()
-	expected := url.Values{"countries_id": []string{"6,7"}, "providers_id": []string{"1,2"}}
+	locationArgs.Providers = &providers
+	locationArgs.Countries = &countries
+	queryParams, _ := locationArgs.QueryParams()
+	expected := url.Values{"countries_id": []string{"6,7"}, "limit": []string{"1000"}, "page": []string{"1"}, "providers_id": []string{"1,2"}}
 	equals(t, expected, queryParams)
 }
 

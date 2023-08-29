@@ -7,14 +7,28 @@ import (
 )
 
 type ParametersArgs struct {
-	BaseArgs BaseArgs
+	BaseArgs      BaseArgs
+	ParameterType string
+}
 
-	Coordinates *Coordinates
+func (parametersArgs *ParametersArgs) Values(q url.Values) (url.Values, error) {
+	if parametersArgs.ParameterType != "" {
+		q.Add("coordinates", parametersArgs.ParameterType)
+	}
+	return q, nil
 }
 
 // QueryParams translates ParametersArgs struct into url.Values
-func (args ParametersArgs) QueryParams() (url.Values, error) {
+func (parametersArgs ParametersArgs) QueryParams() (url.Values, error) {
 	q := make(url.Values)
+	q, err := parametersArgs.BaseArgs.Values(q)
+	if err != nil {
+		return nil, err
+	}
+	q, err = parametersArgs.Values(q)
+	if err != nil {
+		return nil, err
+	}
 	return q, nil
 }
 
