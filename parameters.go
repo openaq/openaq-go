@@ -13,7 +13,7 @@ type ParametersArgs struct {
 
 func (parametersArgs *ParametersArgs) Values(q url.Values) (url.Values, error) {
 	if parametersArgs.ParameterType != "" {
-		q.Add("coordinates", parametersArgs.ParameterType)
+		q.Add("parameter_type", parametersArgs.ParameterType)
 	}
 	return q, nil
 }
