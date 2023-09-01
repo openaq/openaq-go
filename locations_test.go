@@ -16,7 +16,7 @@ func createLocationArgs(page int64, limit int64, monitor bool, providers *Provid
 	}
 	return LocationArgs{
 		BaseArgs:  &baseArgs,
-		Monitor:   monitor,
+		Monitor:   &monitor,
 		Providers: providers,
 		Countries: countries,
 	}
