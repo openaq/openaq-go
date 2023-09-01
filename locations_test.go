@@ -3,18 +3,51 @@ package openaq
 import (
 	"net/url"
 	"testing"
+
+	"github.com/google/go-cmp/cmp"
 )
 
 const locations = `{"meta":{"name":"openaq-api","website":"/","page":1,"limit":100,"found":1},"results":[{"id":2178,"name":"Del Norte","locality":"Albuquerque","timezone":"America/Denver","country":{"id":13,"code":"US","name":"United States of America"},"owner":{"id":4,"name":"Unknown Governmental Organization"},"provider":{"id":119,"name":"AirNow"},"isMobile":false,"isMonitor":true,"instruments":[{"id":2,"name":"Government Monitor"}],"sensors":[{"id":25227,"name":"co ppm","parameter":{"id":8,"name":"co","units":"ppm","displayName":"CO"}},{"id":3916,"name":"no2 ppm","parameter":{"id":7,"name":"no2","units":"ppm","displayName":"NO₂"}},{"id":4272226,"name":"no ppm","parameter":{"id":35,"name":"no","units":"ppm","displayName":"NO"}},{"id":3917,"name":"o3 ppm","parameter":{"id":10,"name":"o3","units":"ppm","displayName":"O₃"}},{"id":3918,"name":"so2 ppm","parameter":{"id":9,"name":"so2","units":"ppm","displayName":"SO₂"}},{"id":3919,"name":"pm10 µg/m³","parameter":{"id":1,"name":"pm10","units":"µg/m³","displayName":"PM10"}},{"id":4272103,"name":"nox ppm","parameter":{"id":19840,"name":"nox","units":"ppm","displayName":"NOx"}},{"id":3920,"name":"pm25 µg/m³","parameter":{"id":2,"name":"pm25","units":"µg/m³","displayName":"PM2.5"}}],"coordinates":{"latitude":35.1353,"longitude":-106.584702},"bounds":[-106.584702,35.1353,-106.584702,35.1353],"distance":null,"datetimeFirst":{"utc":"2016-03-06T19:00:00+00:00","local":"2016-03-06T12:00:00-07:00"},"datetimeLast":{"utc":"2023-08-16T18:00:00+00:00","local":"2023-08-16T12:00:00-06:00"}}]}`
 
+func createLocationArgs(page int64, limit int64, monitor bool, providers *Providers, countries *Countries) LocationArgs {
+	baseArgs := BaseArgs{
+		Limit: limit,
+		Page:  page,
+	}
+	return LocationArgs{
+		BaseArgs:  &baseArgs,
+		Monitor:   monitor,
+		Providers: providers,
+		Countries: countries,
+	}
+}
 func TestLocationArgsQueryParams(t *testing.T) {
+
+	tests := map[string]struct {
+		input LocationArgs
+		want  url.Values
+	}{
+		"simple": {input: createLocationArgs(nil), want: url.Values{"countries_id": []string{"6,7"}, "limit": []string{"1000"}, "page": []string{"1"}, "providers_id": []string{"1,2"}}},
+	}
+
+	for name, tc := range tests {
+		t.Run(name, func(t *testing.T) {
+			got, _ := tc.input.QueryParams()
+			diff := cmp.Diff(tc.want, got)
+			if diff != "" {
+				t.Fatalf(diff)
+			}
+		})
+	}
+
 	baseArgs := BaseArgs{
 		Limit: 1000,
 		Page:  1,
 	}
+	isMonitor := true
 	locationArgs := LocationArgs{
 		BaseArgs: &baseArgs,
-		Monitor:  true,
+		Monitor:  &isMonitor,
 		Mobile:   false,
 	}
 	providers := Providers{IDs: []int64{1, 2}}

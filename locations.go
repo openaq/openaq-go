@@ -23,7 +23,7 @@ type LocationArgs struct {
 	// a single value and not a slice of values
 	IsoCode string
 	// Monitor allows filtering for reference grade/regulatory monitors vs air sensors (AKA low-cost sensors)
-	Monitor bool
+	Monitor *bool
 	// Mobile allowing filtering for mobile locations vs stationary locations
 	Mobile bool
 	// A slice of owners IDs
@@ -41,22 +41,21 @@ func (locationArgs *LocationArgs) Values(q url.Values) (url.Values, error) {
 		coords := fmt.Sprintf("%s,%s", lat, lon)
 		q.Add("coordinates", coords)
 	}
-
 	if locationArgs.Countries != nil {
 		q = locationArgs.Countries.Values(q)
 	}
-
 	if locationArgs.Providers != nil {
 		q = locationArgs.Providers.Values(q)
 	}
 	if locationArgs.Radius != 0 {
 		q.Add("radius", strconv.Itoa(int(locationArgs.Radius)))
 	}
-
-	if len(locationArgs.IsoCode) > 0 {
+	if locationArgs.IsoCode != "" {
 		q.Add("iso", locationArgs.IsoCode)
 	}
-
+	if locationArgs.Monitor != nil {
+		q.Add("monitor", strconv.FormatBool(*locationArgs.Monitor))
+	}
 	return q, nil
 }
 

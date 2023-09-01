@@ -10,9 +10,21 @@ type ProvidersArgs struct {
 	BaseArgs BaseArgs
 }
 
+func (providersArgs *ProvidersArgs) Values(q url.Values) (url.Values, error) {
+	return q, nil
+}
+
 // QueryParams translates ProvidersArgs struct into url.Values
-func (args *ProvidersArgs) QueryParams() (url.Values, error) {
+func (providersArgs ProvidersArgs) QueryParams() (url.Values, error) {
 	q := make(url.Values)
+	q, err := providersArgs.BaseArgs.Values(q)
+	if err != nil {
+		return nil, err
+	}
+	q, err = providersArgs.Values(q)
+	if err != nil {
+		return nil, err
+	}
 	return q, nil
 }
 
