@@ -56,6 +56,14 @@ func (locationArgs *LocationArgs) Values(q url.Values) (url.Values, error) {
 	if locationArgs.Monitor != nil {
 		q.Add("monitor", strconv.FormatBool(*locationArgs.Monitor))
 	}
+	if locationArgs.Bbox != nil {
+		minX := strconv.FormatFloat(locationArgs.Bbox[0], 'f', -1, 64)
+		minY := strconv.FormatFloat(locationArgs.Bbox[1], 'f', -1, 64)
+		maxX := strconv.FormatFloat(locationArgs.Bbox[2], 'f', -1, 64)
+		maxY := strconv.FormatFloat(locationArgs.Bbox[3], 'f', -1, 64)
+		bboxValue := fmt.Sprintf("%f,%f,%f,%f", minX, minY, maxX, maxY)
+		q.Add("bbox", bboxValue)
+	}
 	return q, nil
 }
 
