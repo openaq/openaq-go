@@ -15,10 +15,10 @@ type LocationArgs struct {
 	Coordinates *CoordinatesArgs
 	// Radius represents the distance in meters from the Coordinates position
 	// to search, must be paired with Coordinates
-	Radius int32
+	Radius int64
 	// Bbox is a bounding box to search within and is represented as a slice of four coordinates
 	// in the form [ymin xmin ymax xmax]
-	Bbox []float32
+	Bbox []float64
 	// IsoCode is the ISO 3166-1 alpha-2 country code, unlike countries ID ISO code searching can only accept
 	// a single value and not a slice of values
 	IsoCode string
