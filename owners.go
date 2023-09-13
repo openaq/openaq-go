@@ -38,6 +38,5 @@ func (c *Client) GetOwner(ctx context.Context, OwnersID int64) (*OwnersResponse,
 	if err != nil {
 		return nil, err
 	}
-
 	return resp, nil
 }

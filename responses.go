@@ -193,7 +193,16 @@ type MeasurementsResponse struct {
 
 type ManufacturersResponse struct{}
 
-type OwnersResponse struct{}
+type Owner struct {
+	ID             int64  `json:"id"`
+	Name           string `json:"name"`
+	LocationsCount int64  `json:"locationsCount"`
+}
+
+type OwnersResponse struct {
+	Meta    Meta    `json:"meta"`
+	Results []Owner `json:"results"`
+}
 
 type SensorsResponse struct{}
 
