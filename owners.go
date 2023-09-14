@@ -6,18 +6,22 @@ import (
 	"net/url"
 )
 
-type OwnerArgs struct {
+type OwnersArgs struct {
 	BaseArgs BaseArgs
 }
 
+func (ownersArgs *OwnersArgs) Values(q url.Values) (url.Values, error) {
+	return q, nil
+}
+
 // QueryParams translates OwnerArgs struct into url.Values
-func (args OwnerArgs) QueryParams() (url.Values, error) {
+func (args OwnersArgs) QueryParams() (url.Values, error) {
 	q := make(url.Values)
 	return q, nil
 }
 
 // GetOwners fetches all owners filtered by any params passed.
-func (c *Client) GetOwners(ctx context.Context, args OwnerArgs) (*OwnersResponse, error) {
+func (c *Client) GetOwners(ctx context.Context, args OwnersArgs) (*OwnersResponse, error) {
 	resp := &OwnersResponse{}
 	queryParams, err := args.QueryParams()
 	if err != nil {

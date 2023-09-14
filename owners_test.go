@@ -30,7 +30,7 @@ func TestGetOwners(t *testing.T) {
 	if err != nil {
 		fmt.Println("Failed to create new client")
 	}
-	args := &OwnerArgs{}
+	args := &OwnersArgs{}
 	ctx := context.Background()
 	body, err := openAQClient.GetOwners(ctx, *args)
 	expected := OwnersResponse{
