@@ -56,6 +56,18 @@ type OwnerEntityBase struct {
 	Name string `json:"name"`
 }
 
+type Instrument struct {
+	ID             int64            `json:"id"`
+	Name           string           `json:"name"`
+	Manufacturer   ManufacturerBase `json:"manufacturer"`
+	LocationsCount int64            `json:"locationsCount"`
+}
+
+type InstrumentsResponse struct {
+	Meta    Meta         `json:"meta"`
+	Results []Instrument `json:"results"`
+}
+
 type Parameter struct {
 	ID                int64  `json:"id"`
 	Name              string `json:"name"`
@@ -148,6 +160,23 @@ type ProvidersResponse struct {
 	Results []Provider `json:"results"`
 }
 
+type ManufacturerBase struct {
+	ID   int64  `json:"id"`
+	Name string `json:"name"`
+}
+
+type Manufacturer struct {
+	ID             int64            `json:"id"`
+	Name           string           `json:"name"`
+	Instruments    []InstrumentBase `json:"instruments"`
+	LocationsCount int64            `json:"locationsCount"`
+}
+
+type ManufacturersResponse struct {
+	Meta    Meta           `json:"meta"`
+	Results []Manufacturer `json:"results"`
+}
+
 type period struct {
 	Label        string   `json:"label"`
 	Interval     string   `json:"interval"`
@@ -190,8 +219,6 @@ type MeasurementsResponse struct {
 	Meta    Meta          `json:"meta"`
 	Results []Measurement `json:"results"`
 }
-
-type ManufacturersResponse struct{}
 
 type Owner struct {
 	ID             int64  `json:"id"`

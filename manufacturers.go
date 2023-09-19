@@ -11,8 +11,12 @@ type ManufacturerArgs struct {
 }
 
 // QueryParams translates ManufacturerArgs struct into url.Values
-func (args ManufacturerArgs) QueryParams() (url.Values, error) {
+func (manufacturerArgs ManufacturerArgs) QueryParams() (url.Values, error) {
 	q := make(url.Values)
+	q, err := manufacturerArgs.BaseArgs.Values(q)
+	if err != nil {
+		return nil, err
+	}
 	return q, nil
 }
 
@@ -38,6 +42,5 @@ func (c *Client) GetManufacturer(ctx context.Context, manufacturersID int64) (*M
 	if err != nil {
 		return nil, err
 	}
-
 	return resp, nil
 }
