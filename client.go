@@ -143,6 +143,9 @@ func (c *Client) newRequest(requestPath string, query url.Values) (*http.Request
 	if c.apiKey != "" {
 		req.Header.Add("X-API-key", c.apiKey)
 	}
+	if c.userAgent != "" {
+		req.Header.Add("User-Agent", c.userAgent)
+	}
 	if c.httpHeaders != nil {
 		for k, v := range c.httpHeaders {
 			req.Header.Add(k, v)
