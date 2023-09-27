@@ -43,9 +43,8 @@ func TestGetOwners(t *testing.T) {
 		},
 		Results: []Owner{
 			{
-				ID:             1,
-				Name:           "OpenAQ admin",
-				LocationsCount: 7061,
+				ID:   1,
+				Name: "OpenAQ admin",
 			},
 		},
 	}

@@ -55,9 +55,8 @@ func TestGetManufacturers(t *testing.T) {
 		},
 		Results: []Manufacturer{
 			{
-				ID:             1,
-				Name:           "OpenAQ admin",
-				LocationsCount: 7061,
+				ID:   1,
+				Name: "OpenAQ admin",
 			},
 		},
 	}

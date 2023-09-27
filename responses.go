@@ -57,10 +57,9 @@ type OwnerEntityBase struct {
 }
 
 type Instrument struct {
-	ID             int64            `json:"id"`
-	Name           string           `json:"name"`
-	Manufacturer   ManufacturerBase `json:"manufacturer"`
-	LocationsCount int64            `json:"locationsCount"`
+	ID           int64            `json:"id"`
+	Name         string           `json:"name"`
+	Manufacturer ManufacturerBase `json:"manufacturer"`
 }
 
 type InstrumentsResponse struct {
@@ -69,13 +68,11 @@ type InstrumentsResponse struct {
 }
 
 type Parameter struct {
-	ID                int64  `json:"id"`
-	Name              string `json:"name"`
-	Units             string `json:"units"`
-	DisplayName       string `json:"displayName"`
-	Description       string `json:"description"`
-	LocationsCount    int64  `json:"locationsCount"`
-	MeasurementsCount int64  `json:"measurementsCount"`
+	ID          int64  `json:"id"`
+	Name        string `json:"name"`
+	Units       string `json:"units"`
+	DisplayName string `json:"displayName"`
+	Description string `json:"description"`
 }
 
 type ParametersResponse struct {
@@ -139,20 +136,17 @@ type CountriesResponse struct {
 }
 
 type Provider struct {
-	ID                int64           `json:"id"`
-	Name              string          `json:"name"`
-	SourceName        string          `json:"sourceName"`
-	ExportPrefix      string          `json:"exportPrefix"`
-	License           string          `json:"license"`
-	DatetimeAdded     time.Time       `json:"datetimeAdded"`
-	DatetimeFirst     time.Time       `json:"datetimeFirst"`
-	DatetimeLast      time.Time       `json:"datetimeLast"`
-	OwnerEntity       OwnerEntityBase `json:"ownerEntity"`
-	LocationsCount    int64           `json:"locationsCount"`
-	MeasurementsCount int64           `json:"measurementsCount"`
-	CountriesCount    int64           `json:"countriesCount"`
-	Parameters        []ParameterBase `json:"parameters"`
-	Bbox              Bbox            `json:"bbox"`
+	ID            int64           `json:"id"`
+	Name          string          `json:"name"`
+	SourceName    string          `json:"sourceName"`
+	ExportPrefix  string          `json:"exportPrefix"`
+	License       string          `json:"license"`
+	DatetimeAdded time.Time       `json:"datetimeAdded"`
+	DatetimeFirst time.Time       `json:"datetimeFirst"`
+	DatetimeLast  time.Time       `json:"datetimeLast"`
+	OwnerEntity   OwnerEntityBase `json:"ownerEntity"`
+	Parameters    []ParameterBase `json:"parameters"`
+	Bbox          Bbox            `json:"bbox"`
 }
 
 type ProvidersResponse struct {
@@ -166,10 +160,9 @@ type ManufacturerBase struct {
 }
 
 type Manufacturer struct {
-	ID             int64            `json:"id"`
-	Name           string           `json:"name"`
-	Instruments    []InstrumentBase `json:"instruments"`
-	LocationsCount int64            `json:"locationsCount"`
+	ID          int64            `json:"id"`
+	Name        string           `json:"name"`
+	Instruments []InstrumentBase `json:"instruments"`
 }
 
 type ManufacturersResponse struct {
@@ -221,9 +214,8 @@ type MeasurementsResponse struct {
 }
 
 type Owner struct {
-	ID             int64  `json:"id"`
-	Name           string `json:"name"`
-	LocationsCount int64  `json:"locationsCount"`
+	ID   int64  `json:"id"`
+	Name string `json:"name"`
 }
 
 type OwnersResponse struct {

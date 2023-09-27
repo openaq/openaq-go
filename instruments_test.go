@@ -54,9 +54,8 @@ func TestGetInstruments(t *testing.T) {
 		},
 		Results: []Instrument{
 			{
-				ID:             1,
-				Name:           "OpenAQ admin",
-				LocationsCount: 7061,
+				ID:   1,
+				Name: "OpenAQ admin",
 			},
 		},
 	}
@@ -116,9 +115,8 @@ func TestGetManufacturerInstruments(t *testing.T) {
 		},
 		Results: []Instrument{
 			{
-				ID:             1,
-				Name:           "OpenAQ admin",
-				LocationsCount: 7061,
+				ID:   1,
+				Name: "OpenAQ admin",
 			},
 		},
 	}
