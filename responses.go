@@ -119,15 +119,12 @@ type Bbox struct {
 }
 
 type Country struct {
-	ID                int64           `json:"id"`
-	Code              string          `json:"code"`
-	Name              string          `json:"name"`
-	DatetimeFirst     time.Time       `json:"datetimeFirst"`
-	DatetimeLast      time.Time       `json:"datetimeLast"`
-	Parameters        []ParameterBase `json:"parameters"`
-	LocationsCount    int64           `json:"locationsCount"`
-	MeasurementsCount int64           `json:"measurementsCount"`
-	ProvidersCount    int64           `json:"providersCount"`
+	ID            int64           `json:"id"`
+	Code          string          `json:"code"`
+	Name          string          `json:"name"`
+	DatetimeFirst time.Time       `json:"datetimeFirst"`
+	DatetimeLast  time.Time       `json:"datetimeLast"`
+	Parameters    []ParameterBase `json:"parameters"`
 }
 
 type CountriesResponse struct {
