@@ -220,6 +220,22 @@ type OwnersResponse struct {
 	Results []Owner `json:"results"`
 }
 
-type SensorsResponse struct{}
+type Sensor struct {
+	SensorBase
+	DatetimeFirst Datetime `json:"datetimeFirst"`
+	DatetimeLast  Datetime `json:"datetimeLast"`
+	Coverage      coverage `json:"coverage"`
+	Latest        struct {
+		Datetime    Datetime    `json:"datetime"`
+		Value       float64     `json:"value"`
+		Coordinates Coordinates `json:"coordinates"`
+	} `json:"latest"`
+	Summary summary `json:"summary"`
+}
+
+type SensorsResponse struct {
+	Meta    Meta     `json:"meta"`
+	Results []Sensor `json:"results"`
+}
 
 type TrendsResponse struct{}
