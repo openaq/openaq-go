@@ -10,7 +10,7 @@ import (
 	"testing"
 )
 
-const instruments = `{"meta":{"name":"openaq-api","website":"/","page":1,"limit":100,"found":1},"results":[{"id":1,"name":"OpenAQ admin","locationsCount":7061}]}`
+const instruments = `{"meta":{"name":"openaq-api","website":"/","page":1,"limit":100,"found":1},"results":[{"id":1,"name":"OpenAQ admin","isMonitor":true,"locationsCount":7061}]}`
 
 func TestInstrumentsQueryParams(t *testing.T) {
 	instrumentArgs := InstrumentArgs{
@@ -54,8 +54,9 @@ func TestGetInstruments(t *testing.T) {
 		},
 		Results: []Instrument{
 			{
-				ID:   1,
-				Name: "OpenAQ admin",
+				ID:        1,
+				Name:      "OpenAQ admin",
+				IsMonitor: true,
 			},
 		},
 	}
@@ -85,6 +86,7 @@ func TestGetInstrument(t *testing.T) {
 	body, err := openAQClient.GetInstrument(ctx, 1)
 	ok(t, err)
 	equals(t, body.Results[len(body.Results)-1].ID, int64(1))
+	equals(t, body.Results[len(body.Results)-1].IsMonitor, true)
 }
 
 func TestGetManufacturerInstruments(t *testing.T) {
@@ -115,8 +117,9 @@ func TestGetManufacturerInstruments(t *testing.T) {
 		},
 		Results: []Instrument{
 			{
-				ID:   1,
-				Name: "OpenAQ admin",
+				ID:        1,
+				Name:      "OpenAQ admin",
+				IsMonitor: true,
 			},
 		},
 	}
